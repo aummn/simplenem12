@@ -13,12 +13,11 @@ import java.util.*;
 import java.util.stream.Stream;
 
 public class SimpleNem12ParserImpl implements SimpleNem12Parser {
-  private static final String METER_READ_START_RECORD_TYPE = "200";
-  private static final String METER_READ_RECORD_TYPE = "300";
+
   /**
    * Parses Simple NEM12 file.
    * 
-   * @param simpleNem12File file in Simple NEM12 format
+   * @param simpleNem12File a file in Simple NEM12 format
    * @return Collection of <code>MeterRead</code> that represents the data in the given file.
    */
   public Collection<MeterRead> parseSimpleNem12(File simpleNem12File) {
