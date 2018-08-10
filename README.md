@@ -38,6 +38,8 @@ simplenem12 (project root directory)
              -- RecordType.java                (the newly added record type model)
              -- SimpleNem12ParserImpl.java     (the parser implementation class)
              -- TestHarness.java               (the simple parser test tool)
+             ... 
+             ...
              
     -- test  (unit tests)
     
@@ -48,6 +50,11 @@ simplenem12 (project root directory)
           
        -- resources
           -- SimpleNem12.csv                   (test data for meter reads)
+          -- SimpleNem12_Empty.csv             (empty test data file)
+          -- SimpleNem12_Invalid200.csv        (invalid 200 record in data file)
+          -- SimpleNem12_Without100.csv        (no 100 record in data file)
+          -- SimpleNem12_Without200.csv        (no 200 record in data file)
+          -- SimpleNem12_Without900.csv        (no 900 record in data file)
           
     pom.xml           (the Maven pom file)
     
