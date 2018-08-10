@@ -40,19 +40,22 @@ public class SimpleNem12ParserImpl implements SimpleNem12Parser {
       if(!Optional.ofNullable(simpleNem12File).isPresent() || !simpleNem12File.exists())
           return meterReadList;
 
-      try {
-        BufferedReader br = Files.newBufferedReader(simpleNem12File.toPath());
-        List<String> lines = br.lines().collect(Collectors.toList());
+      try(BufferedReader br = Files.newBufferedReader(simpleNem12File.toPath())){
+          // find the first line of the file
+          Optional<String> firstLineOptional = br.lines().findFirst();
 
-        // validate file format validity, start with 100, end with 900
-        if(lines.isEmpty() ||
-                !lines.get(0).trim().equals(RecordType.METER_READ_START.value()) ||
-                !lines.get(lines.size()-1).trim().equals(RecordType.METER_READ_END.value())) {
-            return meterReadList;
-        }
+          // populate meter read records into memory
+          List<String> lines = br.lines().map(String::trim).collect(Collectors.toList());
 
-        // read meter read records
-        lines.stream()
+          // check file format, start with 100, end with 900
+          if(!firstLineOptional.isPresent() ||
+             !firstLineOptional.get().trim().equals(RecordType.METER_READ_START.value()) ||
+             !lines.get(lines.size()-1).equals(RecordType.METER_READ_END.value())) {
+             return meterReadList;
+          }
+
+          // read meter read records
+          lines.stream()
                 // filter 200, 300 records
                 .filter(line -> line.startsWith(RecordType.METER_READ_START_RECORD_TYPE.value()) ||
                         line.startsWith(RecordType.METER_READ_RECORD_TYPE.value()))
@@ -63,17 +66,14 @@ public class SimpleNem12ParserImpl implements SimpleNem12Parser {
                     if(line.startsWith(RecordType.METER_READ_START_RECORD_TYPE.value())) {
                         parseMeterRead200Record(line).ifPresent(meterReadList::add);
                     }
-
                     // parse meter read records - 300 records
                     if(line.startsWith(RecordType.METER_READ_RECORD_TYPE.value()) && (meterReadList.size() >= 1)) {
                         parseMeterRead300Record(meterReadList.get(meterReadList.size()-1), line);
                     }
-
-        });
-        br.close();
-      } catch (IOException io) {
-        io.printStackTrace();
-      }
+                 });
+          } catch (IOException io) {
+              io.printStackTrace();
+          }
       return meterReadList;
   }
 
