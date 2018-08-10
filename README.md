@@ -78,10 +78,15 @@ To build, enter the project directory, for example "/d/dev/Code/simplenem12" and
 
     mvn clean package
 
+for example:
+
+    Administrator@AUMMN MINGW64 /d/dev/Code/simplenem12 (master)
+    $ mvn clean package
+
 This command would trigger the maven build process and run unit tests.
 
-To build without running the unit test, enter the project directory, for example "/d/dev/Code/simplenem12" and
- type the following commands:
+To build without running the unit test, enter the project directory, 
+for example "/d/dev/Code/simplenem12" and type the following commands:
 
     mvn clean package -Dmaven.test.skip=true
 
@@ -92,17 +97,18 @@ Running Test Harness from the command line
 To run the test harness, please use the following option to run the it.
 
 Option 1:
-Build the project, then enter the project build class directory, for example "/d/dev/Code/simplenem12/target/classes", 
-type the following command, 
+Build the project, then enter the project build class directory, 
+for example "/d/dev/Code/simplenem12/target/classes", type the following command, 
 
     java simplenem12.TestHarness  ./SimpleNem12.csv
 
 for example:
     
-    Administrator@AUMMN MINGW64 /d/dev/Code/simplenem12/target/classes
+    Administrator@AUMMN MINGW64 /d/dev/Code/simplenem12/target/classes (master)
     $ java simplenem12.TestHarness  ./SimpleNem12.csv
     Total volume for NMI 6123456789 is -36.840000
     Total volume for NMI 6987654321 is 14.330000
+
 
 This would run the test harness against the test data file "SimpleNem12.csv" to verify the parser function.
 
