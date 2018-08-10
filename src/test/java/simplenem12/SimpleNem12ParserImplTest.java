@@ -43,4 +43,58 @@ public class SimpleNem12ParserImplTest {
         MeterRead read6987654321 = meterReads.stream().filter(mr -> mr.getNmi().equals("6987654321")).findFirst().get();
         assertThat(read6987654321.getTotalVolume().doubleValue()).isEqualTo(14.33);
     }
+
+    @Test
+    public void readNullFile()
+    {
+        Collection<MeterRead> meterReads = simpleNem12Parser.parseSimpleNem12(null);
+        assertThat(meterReads).isEmpty();
+    }
+
+    @Test
+    public void readNonExistingFile()
+    {
+        Collection<MeterRead> meterReads = simpleNem12Parser.parseSimpleNem12(new File(""));
+        assertThat(meterReads).isEmpty();
+    }
+
+    @Test
+    public void readFileWithoutContents()
+    {
+        simpleNem12File = new File(getClass().getClassLoader().getResource("SimpleNem12_Empty.csv").getFile());
+        Collection<MeterRead> meterReads = simpleNem12Parser.parseSimpleNem12(new File(""));
+        assertThat(meterReads).isEmpty();
+    }
+
+    @Test
+    public void readFileWithout100Record()
+    {
+        simpleNem12File = new File(getClass().getClassLoader().getResource("SimpleNem12_Without100.csv").getFile());
+        Collection<MeterRead> meterReads = simpleNem12Parser.parseSimpleNem12(new File(""));
+        assertThat(meterReads).isEmpty();
+    }
+
+    @Test
+    public void readFileWithout900Record()
+    {
+        simpleNem12File = new File(getClass().getClassLoader().getResource("SimpleNem12_Without900.csv").getFile());
+        Collection<MeterRead> meterReads = simpleNem12Parser.parseSimpleNem12(new File(""));
+        assertThat(meterReads).isEmpty();
+    }
+
+    @Test
+    public void readFileWithout200Record()
+    {
+        simpleNem12File = new File(getClass().getClassLoader().getResource("SimpleNem12_Without200.csv").getFile());
+        Collection<MeterRead> meterReads = simpleNem12Parser.parseSimpleNem12(new File(""));
+        assertThat(meterReads).isEmpty();
+    }
+
+    @Test
+    public void readFileInvalid200Record()
+    {
+        simpleNem12File = new File(getClass().getClassLoader().getResource("SimpleNem12_Invalid200.csv").getFile());
+        Collection<MeterRead> meterReads = simpleNem12Parser.parseSimpleNem12(new File(""));
+        assertThat(meterReads).isEmpty();
+    }
 }
